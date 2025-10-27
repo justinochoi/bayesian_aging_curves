@@ -43,7 +43,6 @@ az.plot_ppc(trace, num_pp_samples=100)
 # plot posterior bat speed against observed age 
 fig = plt.figure(figsize=(10, 4))
 ax = fig.gca()
-
 f_post = az.extract(trace, var_names="f").transpose("sample", ...)
 plot_gp_dist(ax, f_post, age) 
 ax.plot(age, bat_speed, "ok", label = "Observed Bat Speed")
