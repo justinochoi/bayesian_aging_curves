@@ -4,8 +4,8 @@ import arviz as az
 import matplotlib.pyplot as plt 
 from pymc.gp.util import plot_gp_dist 
 
-# vanilla GP with reduced sample size (down to 100 from ~1800)
-df = pd.read_csv("bat_speed_df.csv").sample(100)
+# vanilla GP with reduced dataset 
+df = pd.read_csv("bat_speed_df.csv").sample(100, random_state=76)
 
 bat_speed = df["avg_swing_speed"].values 
 age = df["player_age"].values
@@ -28,7 +28,7 @@ pm.model_to_graphviz(bat_speed_gp)
 
 # about 1:30 with reduced dataset 
 with bat_speed_gp: 
-    trace = pm.sample(cores = 4, random_seed=76, nuts_sampler='pymc') 
+    trace = pm.sample(cores = 4, random_seed=76) 
 
 # diagonistics
 az.plot_trace(trace) 
