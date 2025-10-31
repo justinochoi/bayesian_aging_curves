@@ -1,4 +1,5 @@
 library(tidyverse)
+library(mgcv)
 
 data = read_csv("bat_speed_23-25.csv") 
 
@@ -43,7 +44,16 @@ year_grid = year_grid %>%
 year_grid = year_grid %>% 
   mutate(
     observed = if_else(is.na(avg_swing_speed), 0, 1)
-  ) %>%
-  select(-c(min_age, max_age))
+  )
 
 write_csv(year_grid, "bat_speed_heckman.csv") 
+
+
+# the effect of age on observing a player 
+age_model = gam(observed ~ s(player_age), data = year_grid, family = "binomial")
+summary(age_model) 
+plot(age_model) 
+
+# less likely to observe younger AND older players 
+# the effect of age on observing is like an upside-down U
+
